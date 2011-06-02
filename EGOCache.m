@@ -190,7 +190,7 @@ static EGOCache* __instance;
 	}
 }
 
-- (void)writeData:(NSData*)data toPath:(NSString *)path; {
+- (void)writeData:(NSData*)data toPath:(NSString *)path {
 	[data writeToFile:path atomically:YES];
 } 
 
@@ -257,7 +257,7 @@ static EGOCache* __instance;
 #pragma mark -
 #pragma mark Property List methods
 
-- (NSData*)plistForKey:(NSString*)key; {  
+- (NSData*)plistForKey:(NSString*)key {  
 	NSData* plistData = [self dataForKey:key];
 	
 	return [NSPropertyListSerialization propertyListFromData:plistData
@@ -266,11 +266,11 @@ static EGOCache* __instance;
 											errorDescription:nil];
 }
 
-- (void)setPlist:(id)plistObject forKey:(NSString*)key; {
+- (void)setPlist:(id)plistObject forKey:(NSString*)key {
 	[self setPlist:plistObject forKey:key withTimeoutInterval:self.defaultTimeoutInterval];
 }
 
-- (void)setPlist:(id)plistObject forKey:(NSString*)key withTimeoutInterval:(NSTimeInterval)timeoutInterval; {
+- (void)setPlist:(id)plistObject forKey:(NSString*)key withTimeoutInterval:(NSTimeInterval)timeoutInterval {
 	// Binary plists are used over XML for better performance
 	NSData* plistData = [NSPropertyListSerialization dataFromPropertyList:plistObject 
 																   format:NSPropertyListBinaryFormat_v1_0
