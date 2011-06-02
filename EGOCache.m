@@ -57,6 +57,10 @@ static EGOCache* __instance;
 - (void)removeItemFromCache:(NSString*)key;
 - (void)performDiskWriteOperation:(NSInvocation *)invoction;
 - (void)saveCacheDictionary;
+
+- (void)saveAfterDelay;
+- (void)writeData:(NSData*)data toPath:(NSString *)path;
+- (void)deleteDataAtPath:(NSString *)path;
 @end
 
 #pragma mark -
