@@ -207,8 +207,8 @@ static EGOCache* __instance;
 #pragma mark -
 #pragma mark String methods
 
-- (NSString*)stringForKey:(NSString*)key {
-	return [[[NSString alloc] initWithData:[self dataForKey:key] encoding:NSUTF8StringEncoding] autorelease];
+- (NSString *)stringForKey:(NSString*)key {
+    EGO_RETURN_AUTORELEASED([[NSString alloc] initWithData:[self dataForKey:key] encoding:NSUTF8StringEncoding]);
 }
 
 - (void)setString:(NSString*)aString forKey:(NSString*)key {
@@ -285,15 +285,17 @@ static EGOCache* __instance;
 - (void)performDiskWriteOperation:(NSInvocation *)invoction {
 	NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithInvocation:invoction];
 	[diskOperationQueue addOperation:operation];
-	[operation release];
+    EGO_RELEASE_NIL(operation);
 }
 
 #pragma mark -
 
+#if !__has_feature(objc_arc)
 - (void)dealloc {
-	[diskOperationQueue release];
-	[cacheDictionary release];
-	[super dealloc];
+    [diskOperationQueue release]; diskOperationQueue = nil;
+    [cacheDictionary release]; cacheDictionary = nil;
+    [super dealloc];
 }
+#endif
 
 @end

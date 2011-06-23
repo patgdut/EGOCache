@@ -19,14 +19,16 @@
 #pragma mark -
 #pragma mark Array 
 
-- (NSArray*)arrayForKey:(NSString*)key {
+- (NSArray *)arrayForKey:(NSString*)key {
 	NSData* data = [self dataForKey:key];
-
 	NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-	NSArray *result = [[unarchiver decodeObjectForKey:@"value"] retain];
+    
+	NSArray *result = EGO_RETAIN([unarchiver decodeObjectForKey:@"value"]);
+    
 	[unarchiver finishDecoding];
-	[unarchiver release];
-	[data release];
+    
+    EGO_RELEASE_NIL(unarchiver);
+    EGO_RELEASE_NIL(data);
 
 	return result;
 }
@@ -39,14 +41,14 @@
 	[self setData:[self encodeArray:anArray] forKey:key withTimeoutInterval:timeoutInterval];
 }
 
-- (NSData*)encodeArray:(NSArray*)anArray {
+- (NSData *)encodeArray:(NSArray*)anArray {
 	NSMutableData *data = [[NSMutableData alloc] init];
 	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 	[archiver encodeObject:anArray forKey:@"value"];
 	[archiver finishEncoding];
-	[archiver release];
-
-	return [data autorelease];
+    
+    PS_RELEASE_NIL(archiver);
+    PS_RETURN_AUTORELEASED(data);
 }
 
 #pragma mark -
@@ -54,12 +56,14 @@
 
 - (NSDictionary*)dictionaryForKey:(NSString*)key {
 	NSData* data = [self dataForKey:key];
-
 	NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-	NSDictionary *result = [[unarchiver decodeObjectForKey:@"value"] retain];
+    
+	NSDictionary *result = PS_RETAIN([unarchiver decodeObjectForKey:@"value"]);
+    
 	[unarchiver finishDecoding];
-	[unarchiver release];
-	[data release];
+    
+    PS_RELEASE_NIL(unarchiver);
+    PS_RELEASE_NIL(data);
 
 	return result;
 }
@@ -77,9 +81,9 @@
 	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 	[archiver encodeObject:aDictionary forKey:@"value"];
 	[archiver finishEncoding];
-	[archiver release];
-
-	return [data autorelease];
+    
+    PS_RELEASE_NIL(archiver);
+    PS_RETURN_AUTORELEASED(data);
 }
 
 @end
