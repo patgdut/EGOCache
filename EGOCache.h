@@ -27,27 +27,23 @@
 #import <Foundation/Foundation.h>
 
 #if __has_feature(objc_arc)
-#define EGO_RETAIN(o) o
-#define EGO_AUTORELEASE(o) o
-#define EGO_RELEASE(o) o
-#define EGO_RELEASE_NIL(x) x = nil
-
-#define EGO_DO_RELEASE(o)
-#define __ar_autoreleasing __autoreleasing
-#define EGO_RETURN_AUTORELEASED(...) do { \
-id __autoreleasing instance = __VA_ARGS__; \
-return instance; \
-} while (0)
+    #define EGO_RETAIN(o) o
+    #define EGO_AUTORELEASE(o) o
+    #define EGO_RELEASE(o)
+    #define EGO_DEALLOC()
+    #define EGO_DEALLOC_NIL(o)
 #else
-#define EGO_RETAIN(o) [o retain]
-#define EGO_AUTORELEASE(o) [o autorelease]
-#define EGO_DO_RELEASE(o) [o release]
-#define EGO_RELEASE(o) [o release]
-#define EGO_RELEASE_NIL(o) [o release], o = nil
-#define __ego_autoreleasing
-#define EGO_RETURN_AUTORELEASED(...) do { \
-return [__VA_ARGS__ autorelease]; \
-} while (0)
+    #define EGO_RETAIN(o) [o retain]
+    #define EGO_AUTORELEASE(o) [o autorelease]
+    #define EGO_RELEASE(o) [o release]
+    #define EGO_DEALLOC() [super dealloc]
+    #define EGO_DEALLOC_NIL(o) o = nil
+#endif
+
+#if __has_feature(objc_arc)
+    #define ego_weak weak
+#else
+    #define ego_weak assign
 #endif
 
 @interface EGOCache : NSObject {

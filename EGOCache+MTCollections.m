@@ -27,10 +27,10 @@
     
 	[unarchiver finishDecoding];
     
-    EGO_RELEASE_NIL(unarchiver);
-    EGO_RELEASE_NIL(data);
+    EGO_RELEASE(unarchiver);
+    EGO_RELEASE(data);
 
-	return result;
+	return EGO_AUTORELEASE(result);
 }
 
 - (void)setArray:(NSArray*)anArray forKey:(NSString*)key {
@@ -47,25 +47,25 @@
 	[archiver encodeObject:anArray forKey:@"value"];
 	[archiver finishEncoding];
     
-    PS_RELEASE_NIL(archiver);
-    PS_RETURN_AUTORELEASED(data);
+    EGO_RELEASE(archiver);
+    return EGO_AUTORELEASE(data);
 }
 
 #pragma mark -
 #pragma mark Dictionary 
 
-- (NSDictionary*)dictionaryForKey:(NSString*)key {
+- (NSDictionary *)dictionaryForKey:(NSString*)key {
 	NSData* data = [self dataForKey:key];
 	NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
     
-	NSDictionary *result = PS_RETAIN([unarchiver decodeObjectForKey:@"value"]);
+	NSDictionary *result = EGO_RETAIN([unarchiver decodeObjectForKey:@"value"]);
     
 	[unarchiver finishDecoding];
     
-    PS_RELEASE_NIL(unarchiver);
-    PS_RELEASE_NIL(data);
+    EGO_RELEASE(unarchiver);
+    EGO_RELEASE(data);
 
-	return result;
+	return EGO_AUTORELEASE(result);
 }
 
 - (void)setDictionary:(NSDictionary*)aDictionary forKey:(NSString*)key {
@@ -82,8 +82,8 @@
 	[archiver encodeObject:aDictionary forKey:@"value"];
 	[archiver finishEncoding];
     
-    PS_RELEASE_NIL(archiver);
-    PS_RETURN_AUTORELEASED(data);
+    EGO_RELEASE(archiver);
+    return EGO_AUTORELEASE(data);
 }
 
 @end
