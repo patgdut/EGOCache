@@ -21,16 +21,13 @@
 
 - (NSArray *)arrayForKey:(NSString*)key {
 	NSData* data = [self dataForKey:key];
+    
 	NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    
-	NSArray *result = EGO_RETAIN([unarchiver decodeObjectForKey:@"value"]);
-    
+	NSArray *result = [NSArray arrayWithArray:[unarchiver decodeObjectForKey:@"value"]];
 	[unarchiver finishDecoding];
-    
     EGO_RELEASE(unarchiver);
-    EGO_RELEASE(data);
-
-	return EGO_AUTORELEASE(result);
+    
+	return result;
 }
 
 - (void)setArray:(NSArray*)anArray forKey:(NSString*)key {
@@ -46,26 +43,23 @@
 	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 	[archiver encodeObject:anArray forKey:@"value"];
 	[archiver finishEncoding];
-    
     EGO_RELEASE(archiver);
-    return EGO_AUTORELEASE(data);
+    
+	return EGO_AUTORELEASE(data);
 }
 
 #pragma mark -
 #pragma mark Dictionary 
 
-- (NSDictionary *)dictionaryForKey:(NSString*)key {
+- (NSDictionary*)dictionaryForKey:(NSString*)key {
 	NSData* data = [self dataForKey:key];
+    
 	NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    
-	NSDictionary *result = EGO_RETAIN([unarchiver decodeObjectForKey:@"value"]);
-    
+	NSDictionary *result = [NSDictionary dictionaryWithDictionary:[unarchiver decodeObjectForKey:@"value"]];
 	[unarchiver finishDecoding];
-    
     EGO_RELEASE(unarchiver);
-    EGO_RELEASE(data);
-
-	return EGO_AUTORELEASE(result);
+    
+	return result;
 }
 
 - (void)setDictionary:(NSDictionary*)aDictionary forKey:(NSString*)key {
@@ -81,9 +75,9 @@
 	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
 	[archiver encodeObject:aDictionary forKey:@"value"];
 	[archiver finishEncoding];
-    
     EGO_RELEASE(archiver);
-    return EGO_AUTORELEASE(data);
+    
+	return EGO_AUTORELEASE(data);
 }
 
 @end
