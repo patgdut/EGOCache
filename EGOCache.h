@@ -24,27 +24,7 @@
 //  THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
-
-#if __has_feature(objc_arc)
-    #define EGO_RETAIN(o) o
-    #define EGO_AUTORELEASE(o) o
-    #define EGO_RELEASE(o)
-    #define EGO_DEALLOC()
-    #define EGO_DEALLOC_NIL(o)
-#else
-    #define EGO_RETAIN(o) [o retain]
-    #define EGO_AUTORELEASE(o) [o autorelease]
-    #define EGO_RELEASE(o) [o release]
-    #define EGO_DEALLOC() [super dealloc]
-    #define EGO_DEALLOC_NIL(o) o = nil
-#endif
-
-#if __has_feature(objc_arc)
-    #define ego_weak weak
-#else
-    #define ego_weak assign
-#endif
+#import "PSMacros+ARC.h" // see PSFoundation
 
 @interface EGOCache : NSObject {
 @private
